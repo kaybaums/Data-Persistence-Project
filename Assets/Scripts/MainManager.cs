@@ -6,19 +6,21 @@ using UnityEngine.UI;
 
 public class MainManager : MonoBehaviour
 {
+
     public Brick BrickPrefab;
     public int LineCount = 6;
     public Rigidbody Ball;
 
     public Text ScoreText;
     public GameObject GameOverText;
+    public GameObject mainMenuButton;
     
     private bool m_Started = false;
     private int m_Points;
     
     private bool m_GameOver = false;
 
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -55,6 +57,11 @@ public class MainManager : MonoBehaviour
         }
         else if (m_GameOver)
         {
+            // check is current score is the highscore
+            if (m_Points > ScoreManager.Instance.score)
+            {
+                ScoreManager.Instance.SaveScore(m_Points, ScoreManager.Instance.currentPlayer);
+            }
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -72,5 +79,8 @@ public class MainManager : MonoBehaviour
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
+        mainMenuButton.SetActive(true);
     }
+
+    
 }
